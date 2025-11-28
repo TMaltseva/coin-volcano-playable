@@ -1,5 +1,7 @@
 import * as PIXI from "pixi.js";
 import { gsap } from "gsap";
+import spritesheetUrl from "./assets/spritesheets/spritesheet_2.png";
+import backgroundUrl from "./assets/backgrounds/bg_01.png";
 
 class Game {
   constructor() {
@@ -76,37 +78,21 @@ class Game {
   }
 
   loadAssets() {
-    const assets = {
-      chestOpenSheet: "/assets/spritesheets/spritesheet_2.png",
-      background: "/assets/backgrounds/bg_01.png",
-    };
+    PIXI.Assets.addBundle("gameAssets", {
+      chestOpenSheet: spritesheetUrl,
+      background: backgroundUrl,
+    });
 
-    const assetUrls = Object.values(assets);
-    let loadedCount = 0;
-    const totalCount = assetUrls.length;
-
-    Promise.all(
-      assetUrls.map((url) =>
-        PIXI.Assets.load(url).then((texture) => {
-          loadedCount++;
-          const progress = (loadedCount / totalCount) * 100;
-          this.updateProgress(progress);
-          return { url, texture };
-        })
-      )
-    )
-      .then((results) => {
-        this.resources = {};
-        results.forEach(({ url, texture }) => {
-          const key = Object.keys(assets).find((k) => assets[k] === url);
-          if (key) {
-            this.resources[key] = texture;
-          }
-        });
-
+    PIXI.Assets.loadBundle("gameAssets", (progress) => {
+      const percent = progress * 100;
+      this.updateProgress(percent);
+    })
+      .then((bundle) => {
+        this.resources = bundle;
         this.onAssetsLoaded();
       })
       .catch((error) => {
+        console.error("Error loading assets:", error);
         this.onAssetsLoaded();
       });
   }
@@ -529,7 +515,6 @@ class Game {
           scale: 1.2,
           duration: 0.3,
           ease: "sine.out",
-          force3D: true,
         });
       };
 
@@ -551,7 +536,6 @@ class Game {
           scale: 1,
           duration: 0.3,
           ease: "sine.out",
-          force3D: true,
           onComplete: () => {
             if (this.chestPulseAnimationsByIndex[index]) {
               this.chestPulseAnimationsByIndex[index].resume();
@@ -605,7 +589,6 @@ class Game {
         ease: "sine.inOut",
         yoyo: true,
         repeat: 1,
-        force3D: true,
         onComplete: () => {
           const nextIndex = (index + 1) % this.chestWrappers.length;
           pulseChest(nextIndex);
@@ -701,14 +684,12 @@ class Game {
       opacity: 1,
       duration: 0.3,
       ease: "sine.out",
-      force3D: true,
     });
 
     gsap.to(wrapper, {
       scale: 0.9,
       duration: 0.5,
       ease: "sine.out",
-      force3D: true,
     });
   }
 
@@ -731,6 +712,7 @@ class Game {
         : chestOpenResource;
 
     if (!texture || !(texture instanceof PIXI.Texture)) {
+      console.error("animateChestOpening: invalid texture", texture);
       if (onComplete) onComplete();
       return;
     }
@@ -738,6 +720,7 @@ class Game {
     const baseTexture = texture.baseTexture;
 
     if (!baseTexture) {
+      console.error("animateChestOpening: baseTexture not found");
       if (onComplete) onComplete();
       return;
     }
@@ -761,9 +744,24 @@ class Game {
       return;
     }
 
+    const chestContainer = wrapper.querySelector(".chest-container");
+    const containerRect = chestContainer
+      ? chestContainer.getBoundingClientRect()
+      : null;
     const rect = canvas.getBoundingClientRect();
-    const canvasWidth = rect.width || canvas.offsetWidth || 200;
-    const canvasHeight = rect.height || canvas.offsetHeight || 200;
+
+    let canvasWidth = rect.width || canvas.offsetWidth;
+    let canvasHeight = rect.height || canvas.offsetHeight;
+
+    if ((canvasWidth === 0 || canvasHeight === 0) && containerRect) {
+      canvasWidth = containerRect.width || 200;
+      canvasHeight = containerRect.height || 200;
+    }
+
+    if (canvasWidth === 0 || canvasHeight === 0) {
+      canvasWidth = 200;
+      canvasHeight = 200;
+    }
 
     const targetResolution = window.devicePixelRatio || 1;
 
@@ -909,9 +907,10 @@ class Game {
         y: finalScale,
         duration: 0.5,
         ease: "sine.out",
-        force3D: true,
         onComplete: () => {
-          this.animateChestsFlyAway();
+          setTimeout(() => {
+            this.animateChestsFlyAway();
+          }, 1000);
         },
       });
 
@@ -935,7 +934,6 @@ class Game {
         y: "+=30",
         duration: 0.2,
         ease: "sine.out",
-        force3D: true,
       });
 
       tl.to(wrapper, {
@@ -943,7 +941,6 @@ class Game {
         duration: 0.8,
         ease: "power2.in",
         opacity: 0,
-        force3D: true,
       });
     });
   }
