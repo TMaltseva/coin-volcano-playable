@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin Volcanoes</title>
+    <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div id="loading-screen" class="screen active">
+        <div class="background-container">
+            <img id="bg-image" src="assets/backgrounds/bg_01.png" alt="Background" class="background-image">
+            <div class="blur-overlay"></div>
+            <canvas id="sparkles-canvas" class="sparkles-canvas"></canvas>
+        </div>
+        <div class="loading-content">
+            <div class="logo-container">
+                <img id="logo" src="assets/logo/logo.png" alt="Logo" class="logo">
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar-bg">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="chest-screen" class="screen">
+        <div class="background-container">
+            <img id="bg-image-chest" src="assets/backgrounds/bg_01.png" alt="Background" class="background-image">
+            <div class="blur-overlay"></div>
+            <canvas id="sparkles-canvas-chest" class="sparkles-canvas"></canvas>
+        </div>
+        <div class="chests-container">
+            <div class="chest-wrapper" data-chest="0">
+                <div class="chest-container">
+                    <img src="/assets/ui/chest/chest-closed.png" alt="Chest" class="chest-image chest-closed">
+                    <img src="/assets/ui/chest/chest-opened.png" alt="Chest Opened" class="chest-image chest-opened">
+                    <canvas class="chest-animation-canvas"></canvas>
+                    <canvas class="light-canvas"></canvas>
+                    <canvas class="coin-canvas"></canvas>
+                </div>
+                <div class="win-indicator">
+                    <img src="/assets/ui/billet/bonus.png" alt="Bonus" class="bonus-image">
+                    <div class="billet-container">
+                        <img src="/assets/ui/billet/billet.png" alt="Billet" class="billet-image">
+                        <span class="win-amount">0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="chest-wrapper" data-chest="1">
+                <div class="chest-container">
+                    <img src="/assets/ui/chest/chest-closed.png" alt="Chest" class="chest-image chest-closed">
+                    <img src="/assets/ui/chest/chest-opened.png" alt="Chest Opened" class="chest-image chest-opened">
+                    <canvas class="chest-animation-canvas"></canvas>
+                    <canvas class="light-canvas"></canvas>
+                    <canvas class="coin-canvas"></canvas>
+                </div>
+                <div class="win-indicator">
+                    <img src="/assets/ui/billet/bonus.png" alt="Bonus" class="bonus-image">
+                    <div class="billet-container">
+                        <img src="/assets/ui/billet/billet.png" alt="Billet" class="billet-image">
+                        <span class="win-amount">0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="chest-wrapper" data-chest="2">
+                <div class="chest-container">
+                    <img src="/assets/ui/chest/chest-closed.png" alt="Chest" class="chest-image chest-closed">
+                    <img src="/assets/ui/chest/chest-opened.png" alt="Chest Opened" class="chest-image chest-opened">
+                    <canvas class="chest-animation-canvas"></canvas>
+                    <canvas class="light-canvas"></canvas>
+                    <canvas class="coin-canvas"></canvas>
+                </div>
+                <div class="win-indicator">
+                    <img src="/assets/ui/billet/bonus.png" alt="Bonus" class="bonus-image">
+                    <div class="billet-container">
+                        <img src="/assets/ui/billet/billet.png" alt="Billet" class="billet-image">
+                        <span class="win-amount">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="custom-cursor" class="custom-cursor">
+        <img src="/assets/ui/hand/hand.png" alt="Hand cursor">
+    </div>
+
+    <script type="module" src="/game.js"></script>
+</body>
+</html>
