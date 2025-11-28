@@ -1,77 +1,76 @@
 # Coin Volcano Playable Ad
 
-HTML5 playable ad для казино с выбором сундуков.
+HTML5 playable ad for casino with chest selection.
 
-## Разработка
+## Development
 
 ```bash
-# Установка зависимостей
+# Install dependencies
 npm install
 
-# Запуск dev-сервера
+# Run dev server
 npm run dev
 ```
 
-Проект будет доступен по адресу: `http://localhost:3000`
+The project will be available at: `http://localhost:3000`
 
-## Сборка для продакшена
+## Production Build
 
 ```bash
-# Сборка проекта
+# Build project
 npm run build
 ```
 
-После сборки будет создана папка `dist` с готовыми файлами для деплоя.
+After building, a `dist` folder will be created with ready-to-deploy files.
 
-## Деплой
+## Deployment
 
-### Вариант 1: Статический хостинг (Netlify, Vercel, GitHub Pages)
+### Option 1: Static Hosting (Netlify, Vercel, GitHub Pages)
 
-1. Соберите проект: `npm run build`
-2. Загрузите содержимое папки `dist` на хостинг
+1. Build the project: `npm run build`
+2. Upload the contents of the `dist` folder to hosting
 
 **Netlify:**
-- Перетащите папку `dist` на [netlify.com/drop](https://app.netlify.com/drop)
-- Или подключите GitHub репозиторий и укажите:
+- Drag and drop the `dist` folder to [netlify.com/drop](https://app.netlify.com/drop)
+- Or connect a GitHub repository and specify:
   - Build command: `npm run build`
   - Publish directory: `dist`
 
 **Vercel:**
-- Установите Vercel CLI: `npm i -g vercel`
-- Выполните: `vercel`
-- Или подключите через веб-интерфейс [vercel.com](https://vercel.com)
+- Install Vercel CLI: `npm i -g vercel`
+- Run: `vercel`
+- Or connect via web interface at [vercel.com](https://vercel.com)
 
 **GitHub Pages:**
-- В настройках репозитория включите GitHub Pages
-- Укажите source: `dist` folder
+- Enable GitHub Pages in repository settings
+- Specify source: `dist` folder
 
-### Вариант 2: Обычный веб-хостинг
+### Option 2: Regular Web Hosting
 
-1. Соберите проект: `npm run build`
-2. Загрузите все файлы из папки `dist` на ваш хостинг через FTP/SFTP
-3. Убедитесь, что `index.html` находится в корневой директории
+1. Build the project: `npm run build`
+2. Upload all files from the `dist` folder to your hosting via FTP/SFTP
+3. Make sure `index.html` is in the root directory
 
-### Вариант 3: CDN (для Mintegral/Unity Ads)
+### Option 3: CDN (for Mintegral/Unity Ads)
 
-1. Соберите проект: `npm run build`
-2. Загрузите содержимое `dist` на CDN или S3
-3. Укажите URL к `index.html` в настройках рекламной платформы
+1. Build the project: `npm run build`
+2. Upload the contents of `dist` to CDN or S3
+3. Specify the URL to `index.html` in the advertising platform settings
 
-## Структура проекта
+## Project Structure
 
-- `index.html` - главная страница
-- `game.js` - основная логика игры
-- `style.css` - стили
-- `assets/` - все ресурсы (изображения, спрайты)
-- `dist/` - собранная версия для продакшена (создается после `npm run build`)
+- `index.html` - main page
+- `game.js` - main game logic
+- `style.css` - styles
+- `assets/` - all resources (images, sprites)
+- `dist/` - production build (created after `npm run build`)
 
-## Технологии
+## Technologies
 
-- Pixi.js - для рендеринга анимаций
-- GSAP - для анимаций
-- Vite - сборщик проекта
+- Pixi.js - for animation rendering
+- GSAP - for animations
+- Vite - project bundler
 
-## Размер бандла
+## Bundle Size
 
-После сборки проверьте размер папки `dist`. Согласно спецификации, общий размер должен быть около 3 MB.
-
+After building, check the size of the `dist` folder. According to the specification, the total size should be around 3 MB.
