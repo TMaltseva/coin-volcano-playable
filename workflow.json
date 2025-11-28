@@ -1,0 +1,23 @@
+{
+    "workflows": [
+      {
+        "name": "generate-playable",
+        "description": "Creates a fully responsive HTML5 playable",
+        "steps": [
+          {
+            "agent": "html",
+            "prompt": "Generate index.html according to spec.md"
+          },
+          {
+            "agent": "css",
+            "prompt": "Generate style.css according to spec.md"
+          },
+          {
+            "agent": "js",
+            "prompt": "Generate game.js implementing full mechanics"
+          }
+        ]
+      }
+    ]
+  }
+  
