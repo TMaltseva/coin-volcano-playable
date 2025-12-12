@@ -5,7 +5,11 @@
   "main": "game.js",
   "scripts": {
     "dev": "vite",
+    "dev:playable": "playable-scripts dev",
     "build": "vite build",
+    "build:mintegral": "playable-scripts build mintegral",
+    "build:unity": "playable-scripts build unity",
+    "build:all": "npm run build:mintegral && npm run build:unity",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -13,10 +17,15 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@smoud/playable-sdk": "^1.0.23",
     "gsap": "^3.13.0",
     "pixi.js": "^7.4.3"
   },
   "devDependencies": {
-    "vite": "^7.2.4"
+    "@smoud/playable-scripts": "^1.1.2",
+    "sharp": "^0.34.5",
+    "terser": "^5.44.1",
+    "vite": "^7.2.4",
+    "vite-plugin-html": "^3.2.2"
   }
 }
