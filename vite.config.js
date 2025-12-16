@@ -1,9 +1,20 @@
 import { defineConfig } from "vite";
 import { createHtmlPlugin } from "vite-plugin-html";
+import { resolve } from "path";
 
 export default defineConfig({
   publicDir: "assets",
   base: "/",
+
+  resolve: {
+    alias: {
+      "/fonts": resolve(__dirname, "assets/fonts"),
+      "/sounds": resolve(__dirname, "assets/sounds"),
+      "/spritesheets": resolve(__dirname, "assets/spritesheets"),
+      "/backgrounds": resolve(__dirname, "assets/backgrounds"),
+      "/ui": resolve(__dirname, "assets/ui"),
+    },
+  },
 
   plugins: [
     createHtmlPlugin({
