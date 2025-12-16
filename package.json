@@ -10,6 +10,8 @@
     "build:mintegral": "playable-scripts build mintegral",
     "build:unity": "playable-scripts build unity",
     "build:all": "npm run build:mintegral && npm run build:unity",
+    "validate:mintegral": "node -e \"const fs=require('fs'); const path=require('path'); const filePath=path.join('dist','mintegral','ConceptName.html'); if(!fs.existsSync(filePath)){console.error('File not found:',filePath);process.exit(1);} const file=fs.readFileSync(filePath,'utf8'); console.log('Size:', (Buffer.byteLength(file)/1024/1024).toFixed(2), 'MB'); console.log('Has install event:', file.includes('install')); console.log('All inline:', !file.match(/src=\\\"http|href=\\\"http/));\"",
+    "validate:unity": "node -e \"const fs=require('fs'); const path=require('path'); const files=fs.readdirSync('dist').filter(f=>f.includes('UNITY')&&f.endsWith('.html')); if(files.length===0){console.error('Unity HTML file not found in dist/');process.exit(1);} const filePath=path.join('dist',files[0]); const file=fs.readFileSync(filePath,'utf8'); console.log('File:',files[0]); console.log('Size:', (Buffer.byteLength(file)/1024/1024).toFixed(2), 'MB');\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
