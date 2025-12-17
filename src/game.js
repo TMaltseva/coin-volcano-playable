@@ -200,8 +200,21 @@ export class Game {
     }
   }
 
-  onAssetsLoaded() {
+  async onAssetsLoaded() {
     this.updateProgress(100);
+
+    const { preloadAudio } = await import("./utils/audio.js");
+    const sound1Url = "/sounds/sound_1.mp3";
+    const sound2Url = "/sounds/sound_2.mp3";
+    const sound3Url = "/sounds/sound_3.mp3";
+    const sound4Url = "/sounds/sound_4.mp3";
+
+    preloadAudio(sound1Url);
+    preloadAudio(sound2Url);
+    preloadAudio(sound3Url);
+    preloadAudio(sound4Url);
+    preloadAudio(sound5Url);
+
     this.resources.setTimeout(() => {
       this.startSparklesAnimation();
       this.resources.setTimeout(() => {
@@ -266,7 +279,6 @@ export class Game {
   }
 
   onFinish() {
-    // SDK finish callback
     this.destroy();
   }
 
