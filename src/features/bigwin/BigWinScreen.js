@@ -279,7 +279,7 @@ export class BigWinScreen {
       position: absolute;
       top: ${CONFIG.BIG_WIN_SCREEN.AMOUNT.TOP};
       left: 50%;
-      transform: translateX(-50%) !important;
+      transform: translateX(-50%) translateZ(0);
       font-family: 'The Logo Font', 'Arial Black', sans-serif;
       font-size: ${CONFIG.BIG_WIN_SCREEN.AMOUNT.FONT_SIZE};
       font-weight: 900;
@@ -292,6 +292,9 @@ export class BigWinScreen {
       margin: 0;
       display: block;
       width: 100%;
+      backface-visibility: hidden;
+      will-change: contents;
+      background: transparent;
       `,
     });
 
@@ -417,46 +420,65 @@ export class BigWinScreen {
 
   animateBigWinBalance(bigWinAmount, bigWinData, contentContainer) {
     return new Promise((resolve) => {
-      gsap.to(bigWinAmount, {
-        textContent: bigWinData.targetBalance,
-        duration: CONFIG.BIG_WIN_SCREEN.BALANCE_ANIMATION.DURATION,
-        snap: { textContent: 1 },
-        ease: CONFIG.BIG_WIN_SCREEN.BALANCE_ANIMATION.EASE,
-        onUpdate: function () {
-          const value = Math.floor(this.targets()[0].textContent);
-          bigWinAmount.textContent = value.toLocaleString("ru-RU") + " €";
-        },
-        onComplete: async () => {
-          if (bigWinData.balanceElement) {
-            bigWinData.balanceElement.textContent = `${bigWinData.targetBalance.toLocaleString(
-              "ru-RU"
-            )} €`;
-          }
-
-          await new Promise((resolve) => {
-            this.resources.setTimeout(
-              resolve,
-              CONFIG.BIG_WIN_SCREEN.BALANCE_ANIMATION.WAIT_AFTER
-            );
-          });
-
-          const bigWinBanner =
-            contentContainer.querySelector(".big-win-banner");
-          if (bigWinBanner) {
-            gsap.set(bigWinBanner, { transformOrigin: "center center" });
-            await new Promise((resolve) => {
-              gsap.to(bigWinBanner, {
-                scale: 1.2,
-                duration: 0.3,
-                ease: "back.out(1.7)",
-                onComplete: resolve,
-              });
-            });
-          }
-
-          resolve();
-        },
+      // Force GPU acceleration before animation starts
+      gsap.set(bigWinAmount, {
+        force3D: true,
+        transformPerspective: 1000,
       });
+
+      let lastValue = bigWinData.currentBalance;
+      gsap.to(
+        { value: bigWinData.currentBalance },
+        {
+          value: bigWinData.targetBalance,
+          duration: CONFIG.BIG_WIN_SCREEN.BALANCE_ANIMATION.DURATION,
+          snap: { value: 1 },
+          ease: CONFIG.BIG_WIN_SCREEN.BALANCE_ANIMATION.EASE,
+          onUpdate: function () {
+            const currentValue = Math.floor(this.targets()[0].value);
+            // Only update if value changed to reduce repaints
+            if (currentValue !== lastValue) {
+              bigWinAmount.textContent =
+                currentValue.toLocaleString("ru-RU") + " €";
+              lastValue = currentValue;
+            }
+          },
+          onComplete: async () => {
+            // Ensure final value is set
+            bigWinAmount.textContent =
+              bigWinData.targetBalance.toLocaleString("ru-RU") + " €";
+
+            if (bigWinData.balanceElement) {
+              bigWinData.balanceElement.textContent = `${bigWinData.targetBalance.toLocaleString(
+                "ru-RU"
+              )} €`;
+            }
+
+            await new Promise((resolve) => {
+              this.resources.setTimeout(
+                resolve,
+                CONFIG.BIG_WIN_SCREEN.BALANCE_ANIMATION.WAIT_AFTER
+              );
+            });
+
+            const bigWinBanner =
+              contentContainer.querySelector(".big-win-banner");
+            if (bigWinBanner) {
+              gsap.set(bigWinBanner, { transformOrigin: "center center" });
+              await new Promise((resolve) => {
+                gsap.to(bigWinBanner, {
+                  scale: 1.2,
+                  duration: 0.3,
+                  ease: "back.out(1.7)",
+                  onComplete: resolve,
+                });
+              });
+            }
+
+            resolve();
+          },
+        }
+      );
     });
   }
 

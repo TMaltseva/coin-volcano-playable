@@ -969,14 +969,14 @@ body.custom-cursor-active {
 
 .balance-amount {
     position: absolute;
-    top: 47%;
+    top: 45%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: 'The Logo Font', 'Arial Black', sans-serif;
-    font-size: clamp(1rem, 3.2vw, 1.3rem);
+    transform: translate(-50%);
+    font-family: The Logo Font,Arial Black,sans-serif;
+    font-size: clamp(1rem,3.2vw,1.6rem);
     font-weight: 900;
-    color: #ffffff;
-    text-shadow: 0.1rem 0.1rem 0.3rem rgba(0, 0, 0, 0.9);
+    color: #fff;
+    text-shadow: .1rem .1rem .3rem rgba(0,0,0,.9);
     white-space: nowrap;
     text-align: center;
     max-width: 90%;
@@ -986,7 +986,6 @@ body.custom-cursor-active {
 
 @media (orientation: portrait) {
     .balance-amount {
-        font-size: clamp(1rem, 3.2vw, 1.6rem);
         top: 50%;
     }
 }
@@ -1280,6 +1279,10 @@ body.custom-cursor-active {
         0.3rem 0.3rem 0.5rem rgba(0, 0, 0, 0.9),
         0 0 1rem rgba(255, 215, 0, 1),
         0 0 2rem rgba(255, 215, 0, 0.8);
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    will-change: contents;
+    background: transparent;
 }
 
 
@@ -1556,6 +1559,10 @@ body.custom-cursor-active {
     color: #ffffff;
     text-shadow: 0.1rem 0.1rem 0.3rem rgba(0, 0, 0, 0.9);
     white-space: nowrap;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    will-change: contents;
+    background: transparent;
 }
 
 .volcano-fire-container {
