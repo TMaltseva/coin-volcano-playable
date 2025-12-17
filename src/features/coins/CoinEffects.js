@@ -64,15 +64,35 @@ export class CoinEffects {
 
     const timeline = gsap.timeline({
       delay: index * CONFIG.SLOT_MACHINE.COIN_ANIMATION.DELAY_MULTIPLIER,
+      paused: true,
       onStart: () => {
         if (!isElementValid()) {
           timeline.kill();
           return;
         }
-        playSound(sound7Url);
         this.createCoinSparks(coinContainer);
       },
     });
+    
+    const startAnimation = () => {
+      if (isElementValid()) {
+        playSound(sound7Url, true);
+        timeline.play();
+      }
+    };
+    
+    const audio = playSound(sound7Url, false);
+    if (audio) {
+      if (audio.readyState >= 2) {
+        this.resources.setTimeout(startAnimation, index * CONFIG.SLOT_MACHINE.COIN_ANIMATION.DELAY_MULTIPLIER * 1000);
+      } else {
+        audio.addEventListener("canplaythrough", () => {
+          this.resources.setTimeout(startAnimation, index * CONFIG.SLOT_MACHINE.COIN_ANIMATION.DELAY_MULTIPLIER * 1000);
+        }, { once: true });
+      }
+    } else {
+      this.resources.setTimeout(startAnimation, index * CONFIG.SLOT_MACHINE.COIN_ANIMATION.DELAY_MULTIPLIER * 1000);
+    }
 
     this.addCoinFireAnimation(timeline, fireContainer);
     this.addCoinScaleAnimation(timeline, coinContainer, fireContainer);

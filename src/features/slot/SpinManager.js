@@ -356,15 +356,48 @@ export class SpinManager {
 
     const timeline = gsap.timeline({
       delay: index * CONFIG.SLOT_MACHINE.COIN_ANIMATION.DELAY_MULTIPLIER,
+      paused: true,
       onStart: () => {
         if (!isElementValid()) {
           timeline.kill();
           return;
         }
-        playSound(sound7Url);
+        playSound(sound7Url, true);
         this.createCoinSparks(coinContainer);
       },
     });
+
+    const startAnimation = () => {
+      if (isElementValid()) {
+        timeline.play();
+      }
+    };
+
+    const audio = playSound(sound7Url, false);
+    if (audio) {
+      if (audio.readyState >= 2) {
+        this.resources.setTimeout(
+          startAnimation,
+          index * CONFIG.SLOT_MACHINE.COIN_ANIMATION.DELAY_MULTIPLIER * 1000
+        );
+      } else {
+        audio.addEventListener(
+          "canplaythrough",
+          () => {
+            this.resources.setTimeout(
+              startAnimation,
+              index * CONFIG.SLOT_MACHINE.COIN_ANIMATION.DELAY_MULTIPLIER * 1000
+            );
+          },
+          { once: true }
+        );
+      }
+    } else {
+      this.resources.setTimeout(
+        startAnimation,
+        index * CONFIG.SLOT_MACHINE.COIN_ANIMATION.DELAY_MULTIPLIER * 1000
+      );
+    }
 
     timeline.to(
       fireContainer,
@@ -445,10 +478,6 @@ export class SpinManager {
     });
     coinContainer.appendChild(fireContainer);
     return fireContainer;
-  }
-
-  createCoinSparks(coinContainer) {
-    // for coin sparks animation
   }
 
   async finalizeSpin(spinData, balance, onSpinComplete, onWinDetected) {

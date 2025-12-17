@@ -4,6 +4,7 @@ export class JackpotCounter {
   constructor(resources, screen) {
     this.resources = resources;
     this.screen = screen;
+    this.intervalId = undefined;
     this.jackpotCounters = {
       mini: { current: 22000, increment: 12, initial: 22000, max: 999999 },
       major: { current: 69000, increment: 25, initial: 69000, max: 999999 },
@@ -31,27 +32,21 @@ export class JackpotCounter {
   }
 
   createAnimationLoop(elements) {
-    let lastUpdateTime = performance.now();
-
-    const updateCounter = (currentTime) => {
+    this.intervalId = this.resources.setInterval(() => {
       const startTime = import.meta.env.DEV ? performance.now() : 0;
-
-      if (
-        currentTime - lastUpdateTime >=
-        CONFIG.JACKPOT_COUNTER.UPDATE_INTERVAL
-      ) {
-        this.updateAllCounters(elements);
-        lastUpdateTime = currentTime;
-      }
+      this.updateAllCounters(elements);
 
       if (import.meta.env.DEV) {
         this.checkPerformance(startTime);
       }
+    }, CONFIG.JACKPOT_COUNTER.UPDATE_INTERVAL);
+  }
 
-      this.resources.requestAnimationFrame(updateCounter);
-    };
-
-    updateCounter(performance.now());
+  stopAnimation() {
+    if (this.intervalId !== undefined) {
+      this.resources.clearInterval(this.intervalId);
+      this.intervalId = undefined;
+    }
   }
 
   updateAllCounters(elements) {
