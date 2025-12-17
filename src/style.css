@@ -29,11 +29,16 @@
 body {
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     overflow: hidden;
     position: relative;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     background: #000;
     cursor: none;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
 }
 
 body.custom-cursor-active {
@@ -46,6 +51,7 @@ body.custom-cursor-active {
     left: 0;
     width: 100%;
     height: 100%;
+    height: 100dvh;
     display: none;
     align-items: center;
     justify-content: center;
@@ -61,11 +67,8 @@ body.custom-cursor-active {
     left: 0;
     width: 100%;
     height: 100%;
-    min-width: 100vw;
-    min-height: 100vh;
     overflow: hidden;
     background-color: #000;
-    contain: layout style paint;
 }
 
 .background-image {
@@ -139,6 +142,10 @@ body.custom-cursor-active {
     width: 100%;
     height: 100%;
     padding: clamp(1rem, 3vw, 2rem);
+    padding-top: calc(clamp(1rem, 3vw, 2rem) + env(safe-area-inset-top));
+    padding-bottom: calc(clamp(1rem, 3vw, 2rem) + env(safe-area-inset-bottom));
+    padding-left: calc(clamp(1rem, 3vw, 2rem) + env(safe-area-inset-left));
+    padding-right: calc(clamp(1rem, 3vw, 2rem) + env(safe-area-inset-right));
 }
 
 .logo-container {
@@ -211,8 +218,10 @@ body.custom-cursor-active {
     justify-content: center;
     align-items: center;
     padding: clamp(1rem, 3vw, 2rem);
-    padding-top: calc(clamp(1rem, 3vw, 2rem) + var(--safe-area-top));
-    padding-bottom: calc(clamp(1rem, 3vw, 2rem) + var(--safe-area-bottom));
+    padding-top: calc(clamp(1rem, 3vw, 2rem) + env(safe-area-inset-top));
+    padding-bottom: calc(clamp(1rem, 3vw, 2rem) + env(safe-area-inset-bottom));
+    padding-left: calc(clamp(1rem, 3vw, 2rem) + env(safe-area-inset-left));
+    padding-right: calc(clamp(1rem, 3vw, 2rem) + env(safe-area-inset-right));
 }
 
 .chests-container {
@@ -623,10 +632,15 @@ body.custom-cursor-active {
     left: 0;
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     display: grid;
     grid-template-columns: clamp(6rem, 12vw, 10rem) 1fr clamp(6rem, 12vw, 10rem);
     gap: clamp(1rem, 2vw, 2rem);
     padding: clamp(1rem, 2vh, 2rem);
+    padding-top: calc(clamp(1rem, 2vh, 2rem) + env(safe-area-inset-top));
+    padding-bottom: calc(clamp(1rem, 2vh, 2rem) + env(safe-area-inset-bottom));
+    padding-left: calc(clamp(1rem, 2vw, 2rem) + env(safe-area-inset-left));
+    padding-right: calc(clamp(1rem, 2vw, 2rem) + env(safe-area-inset-right));
     z-index: 100;
 }
 
@@ -885,7 +899,7 @@ body.custom-cursor-active {
     grid-template-columns: repeat(4, 1fr);
     column-gap: clamp(1rem, 4vw, 2.5rem); 
     row-gap: clamp(-0.5rem, -1vw, -0.3rem);
-    width: calc(100vw * 0.8);
+    width: 80vw;
     padding: 7% 24%;
     z-index: 2;
     top: calc(clamp(9.2rem, 18vh, 16rem) - clamp(1.8rem, 4.5vh, 2.8rem));
@@ -1185,6 +1199,7 @@ body.custom-cursor-active {
     left: 0;
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     background: rgba(0, 0, 0, 0.9);
     display: flex;
     align-items: center;
@@ -1378,12 +1393,22 @@ body.custom-cursor-active {
         
         width: 1000px;
         column-gap: clamp(1rem, 4vw, 2.5rem);
-        padding: 4rem 5rem;
+        padding-top: calc(4rem - 10px);
+        padding-bottom: calc(4rem - 10px);
+        padding-left: 5rem;
+        padding-right: 5rem;
     }
 
     .coin-base, .joker-static {
         width: 70%;
         height: 70%;
+    }
+}
+
+@media (min-width: 1024px) and (orientation: landscape) {
+    .slot-grid {
+        padding-top: calc(7% - 10px);
+        padding-bottom: calc(7% - 10px);
     }
 }
 
@@ -1453,6 +1478,7 @@ body.custom-cursor-active {
     left: 0;
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     z-index: 1000;
     pointer-events: none;
     overflow: hidden;
