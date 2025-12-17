@@ -37,7 +37,7 @@ export class CursorManager {
     let rafId = null;
     let needsUpdate = false;
     let lastUpdateTime = 0;
-    const throttleInterval = 16;
+    let throttleInterval = 16;
 
     const updateCursor = () => {
       const now = performance.now();
@@ -58,6 +58,11 @@ export class CursorManager {
       if (rafId === null) {
         updateCursor();
       }
+    };
+
+    // Expose method to change throttle interval
+    this.setThrottleInterval = (interval) => {
+      throttleInterval = interval;
     };
 
     const handleMouseLeave = () => {

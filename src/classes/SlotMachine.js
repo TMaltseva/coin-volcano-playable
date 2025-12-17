@@ -265,6 +265,10 @@ export class SlotMachine {
     }
     this.updateSpinUI(true);
 
+    if (this.cursorManager && this.cursorManager.setThrottleInterval) {
+      this.cursorManager.setThrottleInterval(50);
+    }
+
     this.freeSpins--;
     if (this.uiSetupManager) {
       this.uiSetupManager.setFreeSpins(this.freeSpins);
@@ -332,6 +336,10 @@ export class SlotMachine {
       this.uiSetupManager.setIsSpinning(false);
     }
     this.updateSpinUI(false);
+
+    if (this.cursorManager && this.cursorManager.setThrottleInterval) {
+      this.cursorManager.setThrottleInterval(16);
+    }
   }
 
   restoreCursorState() {

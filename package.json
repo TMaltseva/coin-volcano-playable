@@ -12,7 +12,9 @@
     "build:all": "npm run build:mintegral && npm run build:unity",
     "validate:mintegral": "node scripts/validate-mintegral.cjs",
     "validate:unity": "node scripts/validate-unity.cjs",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test:performance": "node scripts/performance-test.cjs",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:lighthouse": "lhci autorun --collect.url=http://localhost:3000"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +26,7 @@
     "pixi.js": "^7.4.3"
   },
   "devDependencies": {
+    "@lhci/cli": "^0.15.1",
     "@smoud/playable-scripts": "^1.1.2",
     "sharp": "^0.34.5",
     "terser": "^5.44.1",
