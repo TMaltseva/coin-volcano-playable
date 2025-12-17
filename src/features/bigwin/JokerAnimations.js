@@ -19,10 +19,66 @@ export class JokerAnimations {
   async animate(jokerCells) {
     const jokerApps = [];
 
-    playSound(sound8Url);
+    const audio8 = playSound(sound8Url, false);
+    if (audio8) {
+      if (audio8.readyState >= 2) {
+        audio8.currentTime = 0;
+        const promise = audio8.play();
+        if (promise !== undefined) {
+          promise.catch(() => {
+            // autoplay blocked - will be handled by SDK
+          });
+        }
+      } else {
+        audio8.addEventListener(
+          "canplaythrough",
+          () => {
+            audio8.currentTime = 0;
+            const promise = audio8.play();
+            if (promise !== undefined) {
+              promise.catch(() => {
+                // autoplay blocked
+              });
+            }
+          },
+          { once: true }
+        );
+        if (audio8.readyState === 0) {
+          audio8.load();
+        }
+      }
+    }
 
     this.resources.setTimeout(() => {
-      playSound(sound9Url);
+      const audio9 = playSound(sound9Url, false);
+      if (audio9) {
+        if (audio9.readyState >= 2) {
+          audio9.currentTime = 0;
+          const promise = audio9.play();
+          if (promise !== undefined) {
+            promise.catch(() => {
+              // autoplay blocked
+            });
+          }
+        } else {
+          audio9.addEventListener(
+            "canplaythrough",
+            () => {
+              audio9.currentTime = 0;
+              const promise = audio9.play();
+              if (promise !== undefined) {
+                promise.catch(() => {
+                  // autoplay blocked
+                });
+              }
+            },
+            { once: true }
+          );
+          if (audio9.readyState === 0) {
+            audio9.load();
+          }
+        }
+      }
     }, 1000);
 
     await PIXI.Assets.load(jokerSpritesheetUrl);
@@ -211,4 +267,3 @@ export class JokerAnimations {
     this.cleanup();
   }
 }
-
