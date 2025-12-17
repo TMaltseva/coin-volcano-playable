@@ -51,12 +51,17 @@ export default defineConfig({
           ) {
             return "assets/fonts/[name][extname]";
           }
+          // For playable ads, we need assets without hashes in specific paths
+          // Files from publicDir (spritesheets, backgrounds, sounds, ui) are already copied
+          // Don't process them again - they should use publicDir paths
+          // Only process JS/CSS and other non-publicDir assets with hashes
           return "assets/[name].[hash][extname]";
         },
         chunkFileNames: "assets/[name].[hash].js",
         entryFileNames: "assets/[name].[hash].js",
       },
     },
+    copyPublicDir: true,
     sourcemap: false,
   },
 
