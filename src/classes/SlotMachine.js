@@ -33,11 +33,13 @@ import { SparklesSetup } from "../features/sparkles/SparklesSetup.js";
 import { CoinEffects } from "../features/coins/CoinEffects.js";
 import { VolcanoManager } from "../features/volcano/VolcanoManager.js";
 import { UISetupManager } from "../features/ui/UISetupManager.js";
+import { sdk } from "@smoud/playable-sdk";
 
 export class SlotMachine {
   constructor() {
     this.isSpinning = false;
     this.isDestroyed = false;
+    this.isFinished = false;
     this.eventListeners = [];
     this.coinParticles = [];
     this.freeSpins = 5;
@@ -84,6 +86,13 @@ export class SlotMachine {
     this.jokerAnimations.screen = this.screen;
     this.volcanoManager.screen = this.screen;
     this.uiSetupManager.screen = this.screen;
+
+    const { preloadAudio } = await import("../utils/audio.js");
+    preloadAudio(sound7Url);
+    // Preload BIG WIN sounds for iOS compatibility
+    preloadAudio(sound8Url);
+    preloadAudio(sound9Url);
+    preloadAudio(sound10Url);
     this.uiSetupManager.setSpinCallback(() => this.spin());
     this.uiSetupManager.setWithdrawCallback(() =>
       this.triggerCTA("withdraw_clicked")
@@ -163,11 +172,35 @@ export class SlotMachine {
   triggerCTA(source) {
     this.isDestroyed = true;
 
-    sdk.install();
-    sdk.finish();
+    if (!this.isFinished && typeof sdk !== "undefined" && sdk.finish) {
+      this.isFinished = true;
+      sdk.finish();
+    }
+
+    if (typeof sdk !== "undefined" && sdk.install) {
+      sdk.install();
+    }
+
+    const hasAdPlatform = !!(
+      window.mraid ||
+      window.Luna ||
+      window.dapi ||
+      window.gameplayApi
+    );
+
+    if (!hasAdPlatform) {
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const storeUrl = isIOS
+        ? window.APP_STORE_URL || "https://apps.apple.com/app/coin-volcanoes"
+        : window.GOOGLE_PLAY_URL ||
+          "https://play.google.com/store/apps/details?id=com.coinvolcanoes";
+
+      window.location.href = storeUrl;
+    } else {
+      this.showInstallOverlay();
+    }
 
     this.destroy();
-    this.showInstallOverlay();
   }
 
   showInstallOverlay() {
@@ -406,6 +439,11 @@ export class SlotMachine {
     await this.bigWinScreen.show(this.balance, (newBalance) => {
       this.balance = newBalance;
     });
+
+    if (!this.isFinished && typeof sdk !== "undefined" && sdk.finish) {
+      this.isFinished = true;
+      sdk.finish();
+    }
   }
 
   async createBigWinCoinExplosion() {
