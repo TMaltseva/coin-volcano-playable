@@ -515,7 +515,7 @@ export const CONFIG = {
     { type: "minor", amount: 36000 },
   ],
   JACKPOT_COUNTER: {
-    UPDATE_INTERVAL: 100,
+    UPDATE_INTERVAL: 50,
     LOCALE: "ru-RU",
     CURRENCY_SYMBOL: "€",
     PERFORMANCE_THRESHOLD: 16,
