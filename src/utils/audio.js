@@ -10,15 +10,58 @@ export const createAudio = (url) => {
   return audio;
 };
 
-export const playSound = (url) => {
-  try {
-    const audio = createAudio(url);
+const audioCache = new Map();
 
-    const promise = audio.play();
-    if (promise !== undefined) {
-      promise.catch(() => {
-        // autoplay blocked
-      });
+export const preloadAudio = (url) => {
+  if (audioCache.has(url)) {
+    return audioCache.get(url);
+  }
+
+  const audio = createAudio(url);
+  audio.preload = "auto";
+  audio.load();
+  audioCache.set(url, audio);
+  return audio;
+};
+
+export const playSound = (url, playImmediately = true) => {
+  try {
+    let audio = audioCache.get(url);
+
+    if (!audio) {
+      audio = createAudio(url);
+      audioCache.set(url, audio);
+      audio.preload = "auto";
+      audio.load();
+    }
+
+    if (playImmediately) {
+      if (audio.readyState >= 2) {
+        audio.currentTime = 0;
+        const promise = audio.play();
+        if (promise !== undefined) {
+          promise.catch(() => {
+            // autoplay blocked
+          });
+        }
+      } else {
+        audio.addEventListener(
+          "canplaythrough",
+          () => {
+            audio.currentTime = 0;
+            const promise = audio.play();
+            if (promise !== undefined) {
+              promise.catch(() => {
+                // autoplay blocked
+              });
+            }
+          },
+          { once: true }
+        );
+        if (audio.readyState === 0) {
+          audio.load();
+        }
+      }
     }
 
     return audio;
@@ -32,16 +75,37 @@ export const playSound = (url) => {
 
 export const playSoundSequentially = async (url, times) => {
   for (let i = 0; i < times; i++) {
-    const audio = createAudio(url);
+    let audio = audioCache.get(url);
+    if (!audio) {
+      audio = createAudio(url);
+      audioCache.set(url, audio);
+      audio.preload = "auto";
+      audio.load();
+    }
 
     try {
+      if (audio.readyState < 2) {
+        await new Promise((resolve, reject) => {
+          audio.addEventListener("canplaythrough", resolve, { once: true });
+          audio.addEventListener("error", reject, { once: true });
+          if (audio.readyState === 0) {
+            audio.load();
+          }
+        });
+      }
+
+      audio.currentTime = 0;
       await new Promise((resolve, reject) => {
         audio.onended = resolve;
         audio.onerror = reject;
 
         const promise = audio.play();
         if (promise !== undefined) {
-          promise.catch(reject);
+          promise.catch((e) => {
+            // autoplay blocked - this is expected on some platforms
+            // Resolve anyway to continue sequence
+            resolve();
+          });
         }
       });
     } catch (e) {
