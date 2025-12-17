@@ -2,7 +2,6 @@ import * as PIXI from "pixi.js";
 import { CONFIG } from "../../config.js";
 import { CalculationUtils } from "../../utils/calculation.js";
 import { EventUtils } from "../../utils/event.js";
-import { SparklesManager } from "./SparklesManager.js";
 
 export class SparklesSetup {
   constructor(resources) {

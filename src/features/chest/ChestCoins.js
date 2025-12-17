@@ -3,7 +3,8 @@ import { CONFIG } from "../../config.js";
 import { CalculationUtils } from "../../utils/calculation.js";
 import { PIXIUtils } from "../../utils/pixi.js";
 import { AnimationPresets } from "../../utils/animation.js";
-import coinSpritesheetUrl from "/spritesheets/spritesheet_5.png";
+
+const coinSpritesheetUrl = "/spritesheets/spritesheet_5.png";
 
 export class ChestCoins {
   constructor(resources) {

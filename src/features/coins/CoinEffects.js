@@ -4,7 +4,8 @@ import { CONFIG } from "../../config.js";
 import { DOMUtils } from "../../utils/dom.js";
 import { CalculationUtils } from "../../utils/calculation.js";
 import { playSound } from "../../utils/audio.js";
-import sound7Url from "/sounds/sound_7.mp3";
+
+const sound7Url = "/sounds/sound_7.mp3";
 
 export class CoinEffects {
   constructor(resources, sparklesApp, sparkPool) {
@@ -73,25 +74,38 @@ export class CoinEffects {
         this.createCoinSparks(coinContainer);
       },
     });
-    
+
     const startAnimation = () => {
       if (isElementValid()) {
         playSound(sound7Url, true);
         timeline.play();
       }
     };
-    
+
     const audio = playSound(sound7Url, false);
     if (audio) {
       if (audio.readyState >= 2) {
-        this.resources.setTimeout(startAnimation, index * CONFIG.SLOT_MACHINE.COIN_ANIMATION.DELAY_MULTIPLIER * 1000);
+        this.resources.setTimeout(
+          startAnimation,
+          index * CONFIG.SLOT_MACHINE.COIN_ANIMATION.DELAY_MULTIPLIER * 1000
+        );
       } else {
-        audio.addEventListener("canplaythrough", () => {
-          this.resources.setTimeout(startAnimation, index * CONFIG.SLOT_MACHINE.COIN_ANIMATION.DELAY_MULTIPLIER * 1000);
-        }, { once: true });
+        audio.addEventListener(
+          "canplaythrough",
+          () => {
+            this.resources.setTimeout(
+              startAnimation,
+              index * CONFIG.SLOT_MACHINE.COIN_ANIMATION.DELAY_MULTIPLIER * 1000
+            );
+          },
+          { once: true }
+        );
       }
     } else {
-      this.resources.setTimeout(startAnimation, index * CONFIG.SLOT_MACHINE.COIN_ANIMATION.DELAY_MULTIPLIER * 1000);
+      this.resources.setTimeout(
+        startAnimation,
+        index * CONFIG.SLOT_MACHINE.COIN_ANIMATION.DELAY_MULTIPLIER * 1000
+      );
     }
 
     this.addCoinFireAnimation(timeline, fireContainer);

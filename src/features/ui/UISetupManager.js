@@ -3,7 +3,8 @@ import { CONFIG } from "../../config.js";
 import { AnimationUtils } from "../../utils/animation.js";
 import { EventUtils } from "../../utils/event.js";
 import { playSound } from "../../utils/audio.js";
-import sound3Url from "/sounds/sound_3.mp3";
+
+const sound3Url = "/sounds/sound_3.mp3";
 
 export class UISetupManager {
   constructor(resources, screen, customCursor) {
@@ -191,4 +192,3 @@ export class UISetupManager {
     this.eventListeners = [];
   }
 }
-

@@ -3,7 +3,8 @@ import { gsap } from "gsap";
 import { CONFIG } from "../../config.js";
 import { PIXIUtils } from "../../utils/pixi.js";
 import { playSound } from "../../utils/audio.js";
-import sound2Url from "/sounds/sound_2.mp3";
+
+const sound2Url = "/sounds/sound_2.mp3";
 
 export class ChestAnimations {
   constructor(resources, chestAnimationApps) {

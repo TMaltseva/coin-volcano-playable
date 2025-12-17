@@ -9,14 +9,14 @@ import { CalculationUtils } from "../utils/calculation.js";
 import { EventUtils } from "../utils/event.js";
 import { AnimationPresets } from "../utils/animation.js";
 import { playSound, playSoundSequentially } from "../utils/audio.js";
-import jokerSpritesheetUrl from "/spritesheets/spritesheet_1.png";
-import coinSpritesheetUrl from "/spritesheets/spritesheet_5.png";
-import sound1Url from "/sounds/sound_1.mp3";
-import sound3Url from "/sounds/sound_3.mp3";
-import sound7Url from "/sounds/sound_7.mp3";
-import sound8Url from "/sounds/sound_8.mp3";
-import sound9Url from "/sounds/sound_9.mp3";
-import sound10Url from "/sounds/sound_10.mp3";
+
+const coinSpritesheetUrl = "/spritesheets/spritesheet_5.png";
+const sound1Url = "/sounds/sound_1.mp3";
+const sound3Url = "/sounds/sound_3.mp3";
+const sound7Url = "/sounds/sound_7.mp3";
+const sound8Url = "/sounds/sound_8.mp3";
+const sound9Url = "/sounds/sound_9.mp3";
+const sound10Url = "/sounds/sound_10.mp3";
 import { SlotUI } from "../features/slot/SlotUI.js";
 import { SpinManager } from "../features/slot/SpinManager.js";
 import { WinDetector } from "../features/slot/WinDetector.js";
@@ -440,10 +440,7 @@ export class SlotMachine {
       this.balance = newBalance;
     });
 
-    if (!this.isFinished && typeof sdk !== "undefined" && sdk.finish) {
-      this.isFinished = true;
-      sdk.finish();
-    }
+    this.focusWithdrawButton();
   }
 
   async createBigWinCoinExplosion() {

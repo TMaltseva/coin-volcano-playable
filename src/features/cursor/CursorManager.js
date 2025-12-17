@@ -1,5 +1,4 @@
 import { EventUtils } from "../../utils/event.js";
-import { CONFIG } from "../../config.js";
 
 export class CursorManager {
   constructor(resources, customCursor) {

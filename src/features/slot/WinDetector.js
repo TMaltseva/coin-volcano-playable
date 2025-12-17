@@ -41,4 +41,3 @@ export class WinDetector {
     return null;
   }
 }
-

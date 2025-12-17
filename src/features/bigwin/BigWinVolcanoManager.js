@@ -4,7 +4,8 @@ import { CONFIG } from "../../config.js";
 import { DOMUtils } from "../../utils/dom.js";
 import { PIXIUtils } from "../../utils/pixi.js";
 import { AnimationPresets } from "../../utils/animation.js";
-import coinSpritesheetUrl from "/spritesheets/spritesheet_5.png";
+
+const coinSpritesheetUrl = "/spritesheets/spritesheet_5.png";
 
 export class BigWinVolcanoManager {
   constructor(resources) {
@@ -246,27 +247,25 @@ export class BigWinVolcanoManager {
 
     if (!this.bigWinExplosionApps) return;
 
-    Object.values(this.bigWinExplosionApps).forEach(
-      (explosionData) => {
-        if (explosionData.app) {
-          try {
-            if (explosionData.app.ticker) {
-              explosionData.app.ticker.stop();
-            }
-            if (explosionData.sprite) {
-              explosionData.sprite.visible = false;
-            }
-            if (explosionData.canvas) {
-              gsap.killTweensOf(explosionData.canvas);
-              gsap.set(explosionData.canvas, { opacity: 0 });
-            }
-            explosionData.app.destroy(true, { children: true });
-          } catch (e) {
-            // ignore
+    Object.values(this.bigWinExplosionApps).forEach((explosionData) => {
+      if (explosionData.app) {
+        try {
+          if (explosionData.app.ticker) {
+            explosionData.app.ticker.stop();
           }
+          if (explosionData.sprite) {
+            explosionData.sprite.visible = false;
+          }
+          if (explosionData.canvas) {
+            gsap.killTweensOf(explosionData.canvas);
+            gsap.set(explosionData.canvas, { opacity: 0 });
+          }
+          explosionData.app.destroy(true, { children: true });
+        } catch (e) {
+          // ignore
         }
       }
-    );
+    });
     this.bigWinExplosionApps = null;
   }
 
@@ -274,4 +273,3 @@ export class BigWinVolcanoManager {
     this.stopAnimations();
   }
 }
-

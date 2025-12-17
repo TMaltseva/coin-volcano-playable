@@ -3,9 +3,10 @@ import { CONFIG } from "../../config.js";
 import { CalculationUtils } from "../../utils/calculation.js";
 import { EventUtils } from "../../utils/event.js";
 import { playSound } from "../../utils/audio.js";
-import sound2Url from "/sounds/sound_2.mp3";
-import sound3Url from "/sounds/sound_3.mp3";
-import sound4Url from "/sounds/sound_4.mp3";
+
+const sound2Url = "/sounds/sound_2.mp3";
+const sound3Url = "/sounds/sound_3.mp3";
+const sound4Url = "/sounds/sound_4.mp3";
 
 export class ChestManager {
   constructor(resources, chestWrappers, eventListeners, onChestSelectCallback) {

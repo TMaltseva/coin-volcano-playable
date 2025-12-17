@@ -5,9 +5,10 @@ import { DOMUtils } from "../../utils/dom.js";
 import { PIXIUtils } from "../../utils/pixi.js";
 import { CalculationUtils } from "../../utils/calculation.js";
 import { playSound } from "../../utils/audio.js";
-import jokerSpritesheetUrl from "/spritesheets/spritesheet_1.png";
-import sound8Url from "/sounds/sound_8.mp3";
-import sound9Url from "/sounds/sound_9.mp3";
+
+const jokerSpritesheetUrl = "/spritesheets/spritesheet_1.png";
+const sound8Url = "/sounds/sound_8.mp3";
+const sound9Url = "/sounds/sound_9.mp3";
 
 export class JokerAnimations {
   constructor(resources, screen = null) {

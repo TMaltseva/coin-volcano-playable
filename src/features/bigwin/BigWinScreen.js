@@ -3,9 +3,10 @@ import { CONFIG } from "../../config.js";
 import { DOMUtils } from "../../utils/dom.js";
 import { AnimationUtils } from "../../utils/animation.js";
 import { playSound } from "../../utils/audio.js";
-import sound10Url from "/sounds/sound_10.mp3";
 import { VolcanoAnimations } from "./VolcanoAnimations.js";
 import { CoinExplosion } from "./CoinExplosion.js";
+
+const sound10Url = "/sounds/sound_10.mp3";
 
 export class BigWinScreen {
   constructor(resources, screen, customCursor, sparklesApp, sparklesData) {

@@ -4,8 +4,9 @@ import { DOMUtils } from "../../utils/dom.js";
 import { CalculationUtils } from "../../utils/calculation.js";
 import { AnimationUtils } from "../../utils/animation.js";
 import { playSound, playSoundSequentially } from "../../utils/audio.js";
-import sound1Url from "/sounds/sound_1.mp3";
-import sound7Url from "/sounds/sound_7.mp3";
+
+const sound1Url = "/sounds/sound_1.mp3";
+const sound7Url = "/sounds/sound_7.mp3";
 
 export class SpinManager {
   constructor(resources, symbolManager, winDetector, screen) {
