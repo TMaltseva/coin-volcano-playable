@@ -378,7 +378,35 @@ export class BigWinScreen {
       ease: CONFIG.BIG_WIN_SCREEN.SCREEN_ANIMATION.CONTENT_EASE,
     });
 
-    playSound(sound10Url);
+    const audio10 = playSound(sound10Url, false);
+    if (audio10) {
+      if (audio10.readyState >= 2) {
+        audio10.currentTime = 0;
+        const promise = audio10.play();
+        if (promise !== undefined) {
+          promise.catch(() => {
+            // autoplay blocked - will be handled by SDK
+          });
+        }
+      } else {
+        audio10.addEventListener(
+          "canplaythrough",
+          () => {
+            audio10.currentTime = 0;
+            const promise = audio10.play();
+            if (promise !== undefined) {
+              promise.catch(() => {
+                // autoplay blocked
+              });
+            }
+          },
+          { once: true }
+        );
+        if (audio10.readyState === 0) {
+          audio10.load();
+        }
+      }
+    }
 
     const bigWinAmount = contentContainer.querySelector(".big-win-amount");
 
