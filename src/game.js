@@ -1,13 +1,10 @@
 import { sdk } from "@smoud/playable-sdk";
 import * as PIXI from "pixi.js";
 import { gsap } from "gsap";
-import spritesheetUrl from "/spritesheets/spritesheet_2.png";
-import backgroundUrl from "/backgrounds/bg_01.png";
 import { DOMUtils } from "./utils/dom.js";
 import { CalculationUtils } from "./utils/calculation.js";
 import { EventUtils } from "./utils/event.js";
 import { playSound } from "./utils/audio.js";
-import sound5Url from "/sounds/sound_5.mp3";
 import { ResourceManager } from "./classes/ResourceManager.js";
 import { SlotMachine } from "./classes/SlotMachine.js";
 import { CONFIG } from "./config.js";
@@ -17,6 +14,10 @@ import { ChestManager } from "./features/chest/ChestManager.js";
 import { ChestAnimations } from "./features/chest/ChestAnimations.js";
 import { ChestCoins } from "./features/chest/ChestCoins.js";
 import { CursorManager } from "./features/cursor/CursorManager.js";
+
+const spritesheetUrl = "/spritesheets/spritesheet_2.png";
+const backgroundUrl = "/backgrounds/bg_01.png";
+const sound5Url = "/sounds/sound_5.mp3";
 
 export class Game {
   constructor(width, height) {

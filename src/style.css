@@ -904,7 +904,7 @@ body.custom-cursor-active {
     z-index: 2;
     top: calc(clamp(9.2rem, 18vh, 16rem) - clamp(1.8rem, 4.5vh, 2.8rem));
     left: 50%;
-    transform: translateX(-50%) scale(1.09);
+    transform: translate(-50%) scale(1.09);
     transform-origin: center center;
 }
 
@@ -969,11 +969,11 @@ body.custom-cursor-active {
 
 .balance-amount {
     position: absolute;
-    top: 45%;
+    top: 47%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     font-family: 'The Logo Font', 'Arial Black', sans-serif;
-    font-size: clamp(1rem, 3.2vw, 1.6rem);
+    font-size: clamp(1rem, 3.2vw, 1.3rem);
     font-weight: 900;
     color: #ffffff;
     text-shadow: 0.1rem 0.1rem 0.3rem rgba(0, 0, 0, 0.9);
@@ -984,8 +984,9 @@ body.custom-cursor-active {
     text-overflow: ellipsis;
 }
 
-@media (min-width: 769px) {
+@media (orientation: portrait) {
     .balance-amount {
+        font-size: clamp(1rem, 3.2vw, 1.6rem);
         top: 50%;
     }
 }
@@ -1387,14 +1388,15 @@ body.custom-cursor-active {
 @media (orientation: landscape) and (min-width: 1700px) {
     .slot-frame {
         width: 1300px;
+        transform: translateX(-50%) scaleY(1.1);
     }
 
     .slot-grid {
-        
-        width: 1000px;
+        max-width: 1000px;
         column-gap: clamp(1rem, 4vw, 2.5rem);
-        padding-top: calc(4rem - 10px);
-        padding-bottom: calc(4rem - 10px);
+        /* padding-top: calc(4rem - 10px);
+        padding-bottom: calc(4rem - 10px); */
+        padding: 4rem 5rem;
         padding-left: 5rem;
         padding-right: 5rem;
     }
@@ -1405,10 +1407,14 @@ body.custom-cursor-active {
     }
 }
 
-@media (min-width: 1024px) and (orientation: landscape) {
+@media (min-width: 1023px) and (orientation: landscape) {
+    .slot-frame {
+        transform: translateX(-50%) scaleY(1.03);
+    }
+    
     .slot-grid {
-        padding-top: calc(7% - 10px);
-        padding-bottom: calc(7% - 10px);
+        padding-top: calc(4rem - 5px);
+        padding-bottom: calc(4rem - 10px);
     }
 }
 
